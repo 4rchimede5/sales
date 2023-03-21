@@ -79,8 +79,8 @@ browser=webdriver.Firefox()
 browser.get('https://www.instagram.com/accounts/login/')
 
 browser.implicitly_wait(30)
-user='zforero@live.com'
-pasw='Followfollow5!'
+user=''
+pasw=''
 
 login(browser,user,pasw)
 
@@ -113,8 +113,8 @@ pro_ind['following']=following_link.text
 pro_ind['user']=browser.find_by_element_tag_name('h2').text	
 
 browser.get(host+pro_ind['user']+'/followers/')
-follows=followers(browser, pro_ind['followers'],'followers')
+followers(browser, pro_ind['followers'],'followers')
 clean_follows(follows)
 browser.get(host+pro_ind['user']+'/following/')
-follow=following(browser,pro_ind['following'],'following')
+following(browser,pro_ind['following'],'following')
 clean_follows(follow)
