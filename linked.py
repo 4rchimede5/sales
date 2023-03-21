@@ -48,7 +48,7 @@ print("sign in")
 #find the search bar and enter the subject
 #browser.find_element_by_class_name('search-global-typeahead__collapsed-search-button').click()
 search=browser.find_element_by_class_name('search-global-typeahead__input')
-search.send_keys('canadian nuclear safety commission')
+Search.send_keys('')
 search.send_keys(Keys.RETURN)
 
 
