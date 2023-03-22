@@ -26,8 +26,8 @@ def page_change(browser,i):
 	else:
 		return button_next
 
-email=""
-passw=""
+email="zforero@live.com"
+passw="Ard98ar7!"
 
 # initialize Firefox driver
 #options=FirefoxOptions()
@@ -48,27 +48,22 @@ print("sign in")
 #find the search bar and enter the subject
 #browser.find_element_by_class_name('search-global-typeahead__collapsed-search-button').click()
 search=browser.find_element_by_class_name('search-global-typeahead__input')
-Search.send_keys('')
+search.send_keys('canadian nuclear safety commission')
 search.send_keys(Keys.RETURN)
-
 
 #first loop filter for people, companies, etc
 #secon loop filter connections, location, company, etc
 print("start filter")
 for i in range(2):
 	pfilter=primary_filter(browser)
-	for j in range(len(pfilter)):
-		print(j,pfilter[j].text)
-
+	[print(j,pfilter[j].text) for j in range(len(pfilter))]
 	#selection=input("Enter filter")
 	#pfilter[int(selection)].click()
 	pfilter[i].click()
-	
 
 #select which connections or enter a location
 sfilter =secondary_filter(browser)
-for i in range(len(sfilter)):
-	print(i,sfilter[i].text)
+[ print(i,sfilter[i].text) for i in range(len(sfilter)) ]
 
 #selection=input("select:")
 sfilter[1].click()
@@ -114,52 +109,3 @@ output.close()
 
 # close the browser window
 #driver.quit()
-
-'''
-browser = mechanize.Browser()
-browser.set_handle_robots(False)
-browser.open("https://www.kaggle.com/datasets")
-a=browser.response()
-print(a)
-for i in a:
-	print(i)
-
-#browser.select_form(class_='hero-cta-form')
-
-#browser["session_key"] = email
-#browser["session_password"] = passw
-#output = browser.submit()
-
-
-#content=browser.response()
-
-#for i in content:
-#	print(i)
-
-'''
-'''
-client = requests.Session()
-
-login_url = 'https://www.linkedin.com/uas/login'
-login_page= client.get(login_url)
-
-soup = bs(login_page.content,'html.parser')
-csrf = soup.find('input',{'name':'loginCsrfParam'}).get('value')
-
-login_info = {
-	'sesion_key':email,
-	'session_password':passw,
-	'loginCsrfParam':csrf,
-}
-
-#print(login_info)
-
-client.post(login_url, data=login_info)
-
-home_page = client.get('https://www.linkedin.com/in/zeusa')
-
-if 'Sign Out' in home_page.text:
-	print('Login successful')
-else:
-	print('Login failed.')
-'''
