@@ -84,8 +84,8 @@ browser=webdriver.Firefox()
 browser.get('https://www.instagram.com/accounts/login/')
 
 browser.implicitly_wait(10)
-user='zforero@live.com'
-pasw='Followfollow5!'
+user=''
+pasw=''
 
 login(browser,user,pasw)
 
