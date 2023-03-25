@@ -19,29 +19,28 @@ def indicators(browser):
 	following=data[2]
 	return posts,followers,following
 
-def followers(browser,num_followers,person_type):
+def people(browser,num_people,person_type):
 	time.sleep(3)
 	exit=browser.find_element_by_class_name('_ac7b._ac7d')
 
 	popup=browser.find_element_by_class_name('_aano')
-	
-	for i in range(int(num_followers)//5):
+
+	for i in range(int(num_people)//5):
 		popup.send_keys(Keys.END)
 		time.sleep(1)
-	
+
 	data=browser.find_elements_by_class_name('x1yutycm')
-	
-	if int(num_followers) == len(data):
+
+	if int(num_people) == len(data):
 		print('all %s accounted' % person_type)
 	else:
-		missing = int(num_followers) - len(data)
+		missing = int(num_people) - len(data)
 		print("%d %s are missing" % (missing,person_type))
-		followers(browser,num_followers,person_type)
-	
-	exit.click()
-	clean_follows(data,person_type)	
+		followers(browser,num_people,person_type)
 
-def clean_follows(data, person_type):
+	return exit, data, person_type
+
+def clean_people(data, person_type, user):
 	people={}
 	for i in data:
 		person=i.text
@@ -51,36 +50,42 @@ def clean_follows(data, person_type):
 		people[handle]=name
 
 	try:
-		output = open(person_type,'r')
+		output = open("%s_%s"%(person_type,user),'r')
 	except:
-		file=open(person_type,'w')
+		file=open("%s_%s"%(person_type,user),'w')
 		file.close()
-		output=open(person_type,'r')
+		output=open("%s_%s"%(person_type,user),'r')
 	finally:
-		current_follower=output.read()
-		current_follower=current_follower.split('\n')
+		current_person=output.read()
+		current_person=current_person.split('\n')
 		output.close()
 
-	output=open(person_type,'a')
+	output=open("%s_%s"%(person_type,user),'a')
 
 	for i in people:
-		if i in current_follower:
+		if i in current_person:
 			print('%s is already accounted'% i)
 		else:
-			output.write('%s \t %s\n'% (i,handle_name[i])
+			output.write('%s \t %s\n'% (i,people[i]))
 
-def following(browser, fo)"
-	#
-###
-#
-#
+	print('all %s written to file' %person_type)
+
+def navigation(browser):
+	buttons = browser.find_elements_by_class_name('_a6hd')
+
+	while buttons[8].text != 'Profile':
+		browser.set_context('chrome')
+		browser.find_element_by_tag_name('body').send_keys(Keys.CONTROL,'-')
+		browser.set_context('content')
+		buttons = browser.find_elements_by_class_name('_a6hd')
+	return buttons
 
 browser=webdriver.Firefox()
 browser.get('https://www.instagram.com/accounts/login/')
 
-browser.implicitly_wait(30)
-user=''
-pasw=''
+browser.implicitly_wait(10)
+user='zforero@live.com'
+pasw='Followfollow5!'
 
 login(browser,user,pasw)
 
@@ -89,10 +94,8 @@ browser.find_element_by_class_name('_ac8f').click()
 #donot turnon notifications
 browser.find_element_by_class_name('_a9--._a9_1').click()
 
-#build navigation
-buttons = browser.find_elements_by_class_name('_a6hd')
-#for i in buttons:
-#	print(i.text)
+buttons=navigation(browser)
+
 home=buttons[1]
 search=buttons[2]
 explore=buttons[3]
@@ -110,11 +113,16 @@ posts_link,followers_link,following_link=indicators(browser)
 pro_ind['posts']=posts_link.text
 pro_ind['followers']=followers_link.text
 pro_ind['following']=following_link.text
-pro_ind['user']=browser.find_by_element_tag_name('h2').text	
+pro_ind['user']=browser.find_element_by_tag_name('h2').text	
 
 browser.get(host+pro_ind['user']+'/followers/')
-followers(browser, pro_ind['followers'],'followers')
-clean_follows(follows)
+follows=people(browser, pro_ind['followers'],'followers')
+clean_people(follows[1],follows[2],pro_ind['user'])
+follows[0].click()
+
 browser.get(host+pro_ind['user']+'/following/')
-following(browser,pro_ind['following'],'following')
-clean_follows(follow)
+follow=people(browser,pro_ind['following'],'following')
+clean_people(follow[1],follow[2],pro_ind['user'])
+follow[0].click()
+
+post_rows=browser.find.elements_by_class_name('_ac7v._al3n')
