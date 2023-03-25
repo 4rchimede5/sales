@@ -26,6 +26,10 @@ def page_change(browser,i):
 	else:
 		return button_next
 
+def zoom_out(browser,search):
+	browser.find_element_by_tag_name('body').send_keys(Keys.CONTROL,'-')
+	
+
 email="zforero@live.com"
 passw="Ard98ar7!"
 
@@ -35,7 +39,7 @@ passw="Ard98ar7!"
 browser = webdriver.Firefox()
 
 print("firefox fired up")
-browser.implicitly_wait(60)
+browser.implicitly_wait(30)
 # navigate to LinkedIn login page
 browser.get('https://www.linkedin.com/login')
 
@@ -48,6 +52,18 @@ print("sign in")
 #find the search bar and enter the subject
 #browser.find_element_by_class_name('search-global-typeahead__collapsed-search-button').click()
 search=browser.find_element_by_class_name('search-global-typeahead__input')
+i=0
+while i ==0:
+	try:
+		search.send_keys('')
+		i=1
+	except:
+		browser.set_context('chrome')
+		i=0
+		zoom_out(browser,search)
+	finally:
+		browser.set_context('content')
+
 search.send_keys('canadian nuclear safety commission')
 search.send_keys(Keys.RETURN)
 
@@ -109,3 +125,4 @@ output.close()
 
 # close the browser window
 #driver.quit()
+
