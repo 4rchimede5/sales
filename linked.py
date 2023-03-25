@@ -30,8 +30,8 @@ def zoom_out(browser,search):
 	browser.find_element_by_tag_name('body').send_keys(Keys.CONTROL,'-')
 	
 
-email="zforero@live.com"
-passw="Ard98ar7!"
+email=""
+passw=""
 
 # initialize Firefox driver
 #options=FirefoxOptions()
