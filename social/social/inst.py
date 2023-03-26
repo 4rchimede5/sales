@@ -2,7 +2,6 @@ import os
 import time
 from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 host='https://www.instagram.com/'
