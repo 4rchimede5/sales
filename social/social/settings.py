@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'social.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'profile_indicators.sqLite3',
+        'NAME': 'profile_indicators.sqlite3',
     }
 }
 
